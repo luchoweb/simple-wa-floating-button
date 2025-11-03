@@ -5,7 +5,7 @@
  * Author: YourAlly Agency
  * Author URI: https://yourally.dev
  * Version: 1.0.0
- * License: GPL-3.0
+ * License: GPL-2.0+
  */
 
 if ( ! defined('ABSPATH') ) {
@@ -15,7 +15,6 @@ if ( ! defined('ABSPATH') ) {
 class LWAFB_Plugin {
   private $option_key = 'lwafb_options';
   private $plugin_version = '1.0.0';
-  private $text_domain = 'lwafb_plugin';
 
   public function __construct() {
     add_action( 'admin_menu', [$this, 'add_settings_page'] );
@@ -153,7 +152,7 @@ class LWAFB_Plugin {
         printf(
           '<textarea rows="4" name="%1$s[message]" placeholder="%2$s" style="resize: none">%3$s</textarea>',
           esc_attr( $this->option_key ),
-          esc_html__( 'Short message', $this->text_domain ),
+          esc_html__( 'Short message', 'simple-wa-floating-button' ),
           esc_attr( $options['message'] )
         );
       },
@@ -167,9 +166,10 @@ class LWAFB_Plugin {
       function () {
         $options = get_option($this->option_key);
         printf(
-          '<input type="text" name="%1$s[label]" value="%2$s" placeholder="Chat with us!" />',
+          '<input type="text" name="%1$s[label]" value="%2$s" placeholder="%3$s" />',
           esc_attr( $this->option_key ),
-          esc_attr( $options['label'] )
+          esc_attr( $options['label'] ),
+          esc_html__( 'Chat with us!', 'simple-wa-floating-button' ),
         );
       },
       'lwafb_settings',
@@ -188,9 +188,9 @@ class LWAFB_Plugin {
           <label><input type="radio" name="%1$s[position]" value="right" %4$s /> %5$s</label>',
           esc_attr( $this->option_key ),
           checked( $position, 'left', false ),
-          esc_html__( 'Left', $this->text_domain ),
+          esc_html__( 'Left', 'simple-wa-floating-button' ),
           checked( $position, 'right', false ),
-          esc_html__( 'Right', $this->text_domain )
+          esc_html__( 'Right', 'simple-wa-floating-button' )
         );
       },
       'lwafb_settings',
