@@ -91,7 +91,26 @@ class LWAFB_Plugin {
         $selected = isset( $options['country_code'] ) ? $options['country_code'] : '';
         $codes = [
           '57' => '+57 (Colombia)',
-          '1' => '+1 (USA)',
+          '1'  => '+1 (USA)',
+          '52' => '+52 (México)',
+          '54' => '+54 (Argentina)',
+          '55' => '+55 (Brasil)',
+          '56' => '+56 (Chile)',
+          '51' => '+51 (Perú)',
+          '58' => '+58 (Venezuela)',
+          '502' => '+502 (Guatemala)',
+          '503' => '+503 (El Salvador)',
+          '504' => '+504 (Honduras)',
+          '505' => '+505 (Nicaragua)',
+          '506' => '+506 (Costa Rica)',
+          '34' => '+34 (España)',
+          '33' => '+33 (Francia)',
+          '39' => '+39 (Italia)',
+          '44' => '+44 (Reino Unido)',
+          '49' => '+49 (Alemania)',
+          '41' => '+41 (Suiza)',
+          '31' => '+31 (Países Bajos)',
+          '43' => '+43 (Austria)',
         ];
         printf(
           '<select name="%1$s[country_code]">',
