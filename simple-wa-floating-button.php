@@ -15,6 +15,7 @@ if ( ! defined('ABSPATH') ) {
 class LWAFB_Plugin {
   private $option_key = 'lwafb_options';
   private $plugin_version = '1.0.0';
+  private $text_domain = 'lwafb_plugin';
 
   public function __construct() {
     add_action( 'admin_menu', [$this, 'add_settings_page'] );
@@ -72,7 +73,11 @@ class LWAFB_Plugin {
       function () {
         $options = get_option($this->option_key);
         $checked = !empty($options['show_button']) ? 'checked' : '';
-        echo "<input type='checkbox' name='{$this->option_key}[show_button]' value='1' $checked />";
+        printf(
+          '<input type="checkbox" name="%1$s[show_button]" value="1" %2$s />',
+          esc_attr( $this->option_key ),
+          checked( $checked, 'checked', false )
+        );
       },
       'lwafb_settings',
       'lwafb_section'
@@ -88,12 +93,19 @@ class LWAFB_Plugin {
           '57' => '+57 (Colombia)',
           '1' => '+1 (USA)',
         ];
-        echo "<select name='{$this->option_key}[country_code]'>";
+        printf(
+          '<select name="%1$s[country_code]">',
+          esc_attr( $this->option_key )
+        );
         foreach ($codes as $code => $label) {
-          $s = selected($selected, $code, false);
-          echo "<option value='$code' $s>$label</option>";
+          printf(
+            '<option value="%1$s" %2$s>%3$s</option>',
+            esc_attr( $code ),
+            selected($selected, $code, false),
+            esc_attr( $label )
+          );
         }
-        echo "</select>";
+        printf('</select>');
       },
       'lwafb_settings',
       'lwafb_section'
@@ -104,8 +116,11 @@ class LWAFB_Plugin {
       'Phone number',
       function () {
         $options = get_option($this->option_key);
-        $value = isset( $options['phone'] ) ? esc_attr( $options['phone'] ) : '';
-        echo "<input required type='text' name='{$this->option_key}[phone]' value='$value' placeholder='3001234567' />";
+        printf(
+          '<input required type="text" name="%1$s[phone]" value="%2$s" placeholder="3001234567" />',
+          esc_attr( $this->option_key ),
+          esc_attr( $options['phone'] )
+        );
       },
       'lwafb_settings',
       'lwafb_section'
@@ -116,8 +131,12 @@ class LWAFB_Plugin {
       'Message (optional)',
       function () {
         $options = get_option($this->option_key);
-        $value = isset( $options['message'] ) ? esc_attr( $options['message'] ) : '';
-        echo "<textarea rows='4' name='{$this->option_key}[message]' placeholder='Short message' style='resize: none'>$value</textarea>";
+        printf(
+          '<textarea rows="4" name="%1$s[message]" placeholder="%2$s" style="resize: none">%3$s</textarea>',
+          esc_attr( $this->option_key ),
+          esc_html__( 'Short message', $this->text_domain ),
+          esc_attr( $options['message'] )
+        );
       },
       'lwafb_settings',
       'lwafb_section'
@@ -128,8 +147,11 @@ class LWAFB_Plugin {
       'Label (optional)',
       function () {
         $options = get_option($this->option_key);
-        $value = isset( $options['label'] ) ? esc_attr( $options['label'] ) : '';
-        echo "<input type='text' name='{$this->option_key}[label]' value='$value' placeholder='Chat with us!' />";
+        printf(
+          '<input type="text" name="%1$s[label]" value="%2$s" placeholder="Chat with us!" />',
+          esc_attr( $this->option_key ),
+          esc_attr( $options['label'] )
+        );
       },
       'lwafb_settings',
       'lwafb_section'
@@ -139,14 +161,18 @@ class LWAFB_Plugin {
       'position',
       'Position',
       function () {
-        $options = get_option($this->option_key);
+        $options = get_option( $this->option_key );
         $position = isset( $options['position'] ) ? $options['position'] : 'right';
-        $left_checked = $position === 'left' ? 'checked' : '';
-        $right_checked = $position === 'right' ? 'checked' : '';
-        echo "
-          <label style='margin-right: 1rem'><input type='radio' name='{$this->option_key}[position]' value='left' $left_checked /> Left</label>
-          <label><input type='radio' name='{$this->option_key}[position]' value='right' $right_checked /> Right</label>
-        ";
+
+        printf(
+          '<label style="margin-right:1rem"><input type="radio" name="%1$s[position]" value="left" %2$s /> %3$s</label>
+          <label><input type="radio" name="%1$s[position]" value="right" %4$s /> %5$s</label>',
+          esc_attr( $this->option_key ),
+          checked( $position, 'left', false ),
+          esc_html__( 'Left', $this->text_domain ),
+          checked( $position, 'right', false ),
+          esc_html__( 'Right', $this->text_domain )
+        );
       },
       'lwafb_settings',
       'lwafb_section'
@@ -182,7 +208,12 @@ class LWAFB_Plugin {
     $position = $options['position'] === 'left' ? 'p-left' : 'p-right';
     $url = "https://wa.me/$full_number?text=$message";
 
-    echo "<style>.waf-button::after{content:'$label'}</style><a class='waf-button $position' href='$url' target='_blank'><svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 32 32' fill='white'><path d='M16 .396C7.166.396 0 7.562 0 16.396c0 2.896.76 5.593 2.084 7.948L0 32l7.832-2.052A15.894 15.894 0 0016 32c8.832 0 16-7.166 16-15.604S24.832.396 16 .396zm0 29.052a13.34 13.34 0 01-6.844-1.876l-.48-.292-4.636 1.224 1.236-4.52-.312-.468a13.248 13.248 0 01-2.02-6.92c0-7.344 5.98-13.312 13.36-13.312 7.348 0 13.32 5.968 13.32 13.312.004 7.344-5.972 13.352-13.324 13.352zm7.3-9.676c-.4-.2-2.356-1.164-2.72-1.296-.36-.128-.624-.2-.888.2-.264.4-1.02 1.296-1.252 1.56-.228.264-.456.3-.848.1-.396-.2-1.676-.616-3.192-1.964-1.18-1.052-1.976-2.352-2.208-2.748-.228-.4-.024-.616.176-.816.18-.18.396-.468.6-.7.2-.24.264-.4.396-.66.132-.264.068-.5-.032-.7-.1-.2-.888-2.14-1.216-2.92-.32-.772-.648-.668-.888-.68-.228-.012-.484-.012-.74-.012-.264 0-.692.1-1.052.5s-1.38 1.348-1.38 3.28c0 1.932 1.412 3.792 1.608 4.056.2.264 2.784 4.26 6.748 5.976.944.408 1.68.652 2.256.832.948.3 1.812.256 2.492.156.76-.112 2.356-.964 2.688-1.896.332-.932.332-1.732.232-1.896-.096-.16-.364-.264-.76-.464z'></path></svg><span class='notification'></span></a>";
+    printf(
+      '<style>.waf-button::after{content:"%1$s"}</style><a class="waf-button %2$s" href="%3$s" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32" fill="white"><path d="M16 .396C7.166.396 0 7.562 0 16.396c0 2.896.76 5.593 2.084 7.948L0 32l7.832-2.052A15.894 15.894 0 0016 32c8.832 0 16-7.166 16-15.604S24.832.396 16 .396zm0 29.052a13.34 13.34 0 01-6.844-1.876l-.48-.292-4.636 1.224 1.236-4.52-.312-.468a13.248 13.248 0 01-2.02-6.92c0-7.344 5.98-13.312 13.36-13.312 7.348 0 13.32 5.968 13.32 13.312.004 7.344-5.972 13.352-13.324 13.352zm7.3-9.676c-.4-.2-2.356-1.164-2.72-1.296-.36-.128-.624-.2-.888.2-.264.4-1.02 1.296-1.252 1.56-.228.264-.456.3-.848.1-.396-.2-1.676-.616-3.192-1.964-1.18-1.052-1.976-2.352-2.208-2.748-.228-.4-.024-.616.176-.816.18-.18.396-.468.6-.7.2-.24.264-.4.396-.66.132-.264.068-.5-.032-.7-.1-.2-.888-2.14-1.216-2.92-.32-.772-.648-.668-.888-.68-.228-.012-.484-.012-.74-.012-.264 0-.692.1-1.052.5s-1.38 1.348-1.38 3.28c0 1.932 1.412 3.792 1.608 4.056.2.264 2.784 4.26 6.748 5.976.944.408 1.68.652 2.256.832.948.3 1.812.256 2.492.156.76-.112 2.356-.964 2.688-1.896.332-.932.332-1.732.232-1.896-.096-.16-.364-.264-.76-.464z"></path></svg><span class="notification"></span></a>',
+      esc_attr( $label ),
+      esc_attr( $position ),
+      esc_attr( $url )
+    );
   }
 }
 
