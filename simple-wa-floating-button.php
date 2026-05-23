@@ -25,7 +25,7 @@ class LWAFB_Plugin {
 
   public function enqueue_public_assets() {
     if ( ! is_admin() ) {
-      wp_enqueue_style( 'lwafb-styles', plugin_dir_path( __FILE__ ) . 'styles.min.css', array(), $this->plugin_version );
+      wp_enqueue_style( 'lwafb-styles', plugins_url( 'styles.min.css', __FILE__ ), array(), $this->plugin_version );
     }
   }
 
