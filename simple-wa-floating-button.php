@@ -4,7 +4,7 @@
  * Description: Allow your customers to chat with you in one click!
  * Author: YourAlly Agency
  * Author URI: https://yourally.dev
- * Version: 1.0.0
+ * Version: 1.0.1
  * License: GPL-2.0+
  */
 
@@ -14,7 +14,7 @@ if ( ! defined('ABSPATH') ) {
 
 class LWAFB_Plugin {
   private $option_key = 'lwafb_options';
-  private $plugin_version = '1.0.0';
+  private $plugin_version = '1.0.1';
 
   public function __construct() {
     add_action( 'admin_menu', [$this, 'add_settings_page'] );
