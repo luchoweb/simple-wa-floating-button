@@ -5,7 +5,7 @@ Tags: whatsapp, chat, floating button, support, contact
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,10 +45,16 @@ Yes, as long as your theme uses `wp_footer()` properly.
 
 == Changelog ==
 
+= 1.0.1 =
+* Improved the frontend `styles.min.css` path loading.
+
 = 1.0.0 =
 * Initial release. Includes settings page and floating button.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Minor update: improved the frontend `styles.min.css` path.
 
 = 1.0.0 =
 First version of the plugin.
