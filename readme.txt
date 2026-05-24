@@ -45,10 +45,16 @@ Yes, as long as your theme uses `wp_footer()` properly.
 
 == Changelog ==
 
+= 1.0.1 =
+* Improved the frontend `styles.min.css` path loading.
+
 = 1.0.0 =
 * Initial release. Includes settings page and floating button.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Minor update: improved the frontend `styles.min.css` path.
 
 = 1.0.0 =
 First version of the plugin.
